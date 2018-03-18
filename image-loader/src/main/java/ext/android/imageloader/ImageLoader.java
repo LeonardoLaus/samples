@@ -1,4 +1,4 @@
-package cn.homelabs.imageloader;
+package ext.android.imageloader;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

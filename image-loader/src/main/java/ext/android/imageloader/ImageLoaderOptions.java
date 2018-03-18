@@ -1,9 +1,10 @@
-package cn.homelabs.imageloader;
+package ext.android.imageloader;
 
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RestrictTo;
 
-import cn.homelabs.imageloader.annotations.ScaleType;
+import ext.android.imageloader.annotations.ScaleType;
+import ext.android.imageloader.progress.ProgressListener;
 
 /**
  * Created by ROOT on 2017/7/27.
@@ -20,6 +21,7 @@ public class ImageLoaderOptions {
     private boolean asGif;
     @ScaleType
     private int scaleType;
+    private ProgressListener progressListener;
 
     private ImageLoaderOptions(Builder builder) {
         this.placeholder = builder.placeholder;
@@ -29,6 +31,7 @@ public class ImageLoaderOptions {
         this.asGif = builder.asGif;
         this.asBitmap = builder.asBitmap;
         this.scaleType = builder.scaleType;
+        this.progressListener = builder.progressListener;
     }
 
     @DrawableRes
@@ -57,8 +60,13 @@ public class ImageLoaderOptions {
         return asGif;
     }
 
+    @ScaleType
     public int getScaleType() {
         return scaleType;
+    }
+
+    public ProgressListener getProgressListener() {
+        return progressListener;
     }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -97,6 +105,7 @@ public class ImageLoaderOptions {
         private boolean asGif;
         @ScaleType
         private int scaleType = ScaleType.FIT_CENTER;
+        private ProgressListener progressListener;
 
         public Builder placeholder(@DrawableRes int placeholder) {
             this.placeholder = placeholder;
@@ -137,6 +146,11 @@ public class ImageLoaderOptions {
         public Builder asBitmap() {
             this.asBitmap = true;
             this.asGif = false;
+            return this;
+        }
+
+        public Builder progressListener(ProgressListener progressListener) {
+            this.progressListener = progressListener;
             return this;
         }
 

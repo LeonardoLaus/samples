@@ -1,4 +1,4 @@
-package cn.homelabs.imageloader.glide.integration;
+package ext.android.imageloader.glide.integration;
 
 import android.os.Build;
 import android.support.annotation.NonNull;

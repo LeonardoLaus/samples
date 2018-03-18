@@ -1,4 +1,4 @@
-package cn.homelabs.imageloader.annotations;
+package ext.android.imageloader.annotations;
 
 
 import android.graphics.Matrix;

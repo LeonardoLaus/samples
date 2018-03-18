@@ -1,4 +1,4 @@
-package cn.homelabs.imageloader.glide.integration;
+package ext.android.imageloader.glide.integration;
 
 import android.content.Context;
 
@@ -11,7 +11,7 @@ import com.bumptech.glide.module.LibraryGlideModule;
 
 import java.io.InputStream;
 
-import cn.homelabs.imageloader.ImageLoaderManager;
+import ext.android.imageloader.ImageLoaderManager;
 import okhttp3.OkHttpClient;
 
 /**

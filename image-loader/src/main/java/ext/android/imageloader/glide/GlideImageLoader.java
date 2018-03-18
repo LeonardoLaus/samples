@@ -1,22 +1,26 @@
-package cn.homelabs.imageloader.glide;
+package ext.android.imageloader.glide;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 
-import cn.homelabs.imageloader.ImageLoader;
-import cn.homelabs.imageloader.ImageLoaderOptions;
-import cn.homelabs.imageloader.annotations.ScaleType;
+import ext.android.imageloader.ImageLoader;
+import ext.android.imageloader.ImageLoaderOptions;
+import ext.android.imageloader.annotations.ScaleType;
+import ext.android.imageloader.progress.ProgressDispatcher;
 
 /**
  * Created by ROOT on 2017/7/27.
@@ -66,6 +70,22 @@ public class GlideImageLoader implements ImageLoader {
             if (options.isCrossFade()) {
                 builder.transition(new DrawableTransitionOptions().crossFade());
             }
+        }
+        if (options.getProgressListener() != null) {
+            ProgressDispatcher.get().addListener(resource, options.getProgressListener());
+            builder.listener(new RequestListener() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+                    ProgressDispatcher.get().removeListener(model);
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
+                    ProgressDispatcher.get().removeListener(model);
+                    return false;
+                }
+            });
         }
         builder.into(imageView);
     }

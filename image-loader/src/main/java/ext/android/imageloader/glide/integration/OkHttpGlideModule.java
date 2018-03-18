@@ -1,4 +1,4 @@
-package cn.homelabs.imageloader.glide.integration;
+package ext.android.imageloader.glide.integration;
 
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;
