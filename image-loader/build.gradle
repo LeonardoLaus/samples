@@ -32,3 +32,9 @@ dependencies {
     compileOnly deps.support.app_compat
     annotationProcessor deps.glide.compiler
 }
+
+group = config.versions.group
+version = config.versions.version
+apply from: '../packaging.gradle'
+apply from: '../maven.gradle'
+apply from: '../bintray.gradle'

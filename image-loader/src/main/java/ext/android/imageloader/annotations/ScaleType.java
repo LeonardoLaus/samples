@@ -4,8 +4,10 @@ package ext.android.imageloader.annotations;
 import android.graphics.Matrix;
 import android.support.annotation.IntDef;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Created by roothost on 2018/3/16.
@@ -18,6 +20,7 @@ import java.lang.annotation.RetentionPolicy;
         ScaleType.CENTER,
         ScaleType.CENTER_CROP,
         ScaleType.CENTER_INSIDE})
+@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
 @Retention(RetentionPolicy.SOURCE)
 public @interface ScaleType {
     /**

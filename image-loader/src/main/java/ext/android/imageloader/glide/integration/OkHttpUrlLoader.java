@@ -11,7 +11,7 @@ import com.bumptech.glide.load.model.MultiModelLoaderFactory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import ext.android.imageloader.progress.ProgressDispatcher;
+import ext.android.imageloader.ImageLoaderDispatcher;
 import ext.android.imageloader.progress.ProgressListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -95,14 +95,16 @@ public class OkHttpUrlLoader implements ModelLoader<GlideUrl, InputStream> {
         }
 
         private void addProgressInterceptor(OkHttpClient okHttpClient) {
-            final ProgressListener progressListener = ProgressDispatcher.get();
-            okHttpClient.networkInterceptors().add(chain -> {
-                Request request = chain.request();
-                Response originResponse = chain.proceed(request);
-                return originResponse.newBuilder()
-                        .body(new ProgressResponseBody(request.url().toString(), originResponse.body(), progressListener))
-                        .build();
-            });
+            final ProgressListener progressListener = ImageLoaderDispatcher.get();
+            OkHttpClient.Builder builder = okHttpClient.newBuilder()
+                    .addNetworkInterceptor(chain -> {
+                        Request request = chain.request();
+                        Response originResponse = chain.proceed(request);
+                        return originResponse.newBuilder()
+                                .body(new ProgressResponseBody(request.url().toString(), originResponse.body(), progressListener))
+                                .build();
+                    });
+            this.client = builder.build();
         }
     }
 

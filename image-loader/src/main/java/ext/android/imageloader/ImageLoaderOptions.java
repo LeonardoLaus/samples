@@ -3,6 +3,7 @@ package ext.android.imageloader;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RestrictTo;
 
+import ext.android.imageloader.annotations.ResourceType;
 import ext.android.imageloader.annotations.ScaleType;
 import ext.android.imageloader.progress.ProgressListener;
 
@@ -17,21 +18,22 @@ public class ImageLoaderOptions {
     private int errorDrawable = -1;
     private ImageSize imageSize;
     private boolean isCrossFade;
-    private boolean asBitmap;
-    private boolean asGif;
+    @ResourceType
+    private int resourceType;
     @ScaleType
     private int scaleType;
     private ProgressListener progressListener;
+    private IRequestListener requestListener;
 
     private ImageLoaderOptions(Builder builder) {
         this.placeholder = builder.placeholder;
         this.errorDrawable = builder.errorDrawable;
         this.imageSize = builder.imageSize;
         this.isCrossFade = builder.isCrossFade;
-        this.asGif = builder.asGif;
-        this.asBitmap = builder.asBitmap;
+        this.resourceType = builder.resourceType;
         this.scaleType = builder.scaleType;
         this.progressListener = builder.progressListener;
+        this.requestListener = builder.requestListener;
     }
 
     @DrawableRes
@@ -52,12 +54,9 @@ public class ImageLoaderOptions {
         return isCrossFade;
     }
 
-    public boolean isAsBitmap() {
-        return asBitmap;
-    }
-
-    public boolean isAsGif() {
-        return asGif;
+    @ResourceType
+    public int getResourceType() {
+        return resourceType;
     }
 
     @ScaleType
@@ -67,6 +66,10 @@ public class ImageLoaderOptions {
 
     public ProgressListener getProgressListener() {
         return progressListener;
+    }
+
+    public IRequestListener getRequestListener() {
+        return requestListener;
     }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -101,11 +104,12 @@ public class ImageLoaderOptions {
         private int errorDrawable;
         private ImageSize imageSize;
         private boolean isCrossFade;
-        private boolean asBitmap;
-        private boolean asGif;
+        @ResourceType
+        private int resourceType = ResourceType.DRAWABLE;
         @ScaleType
         private int scaleType = ScaleType.FIT_CENTER;
         private ProgressListener progressListener;
+        private IRequestListener requestListener;
 
         public Builder placeholder(@DrawableRes int placeholder) {
             this.placeholder = placeholder;
@@ -137,20 +141,18 @@ public class ImageLoaderOptions {
             return this;
         }
 
-        public Builder asGif() {
-            this.asGif = true;
-            this.asBitmap = false;
-            return this;
-        }
-
-        public Builder asBitmap() {
-            this.asBitmap = true;
-            this.asGif = false;
+        public Builder as(@ResourceType int resourceType) {
+            this.resourceType = resourceType;
             return this;
         }
 
         public Builder progressListener(ProgressListener progressListener) {
             this.progressListener = progressListener;
+            return this;
+        }
+
+        public <T> Builder listener(IRequestListener<T> requestListener) {
+            this.requestListener = requestListener;
             return this;
         }
 
