@@ -52,8 +52,12 @@ public class ImageLoaderManager implements ImageLoader {
         showImage(view, model, null);
     }
 
-    public void showImage(@NonNull View view, @DrawableRes int resId) {
-        showImage(view, resId, null);
+    public void showImage(@NonNull View view, @NonNull Object model, @DrawableRes int defaultResId) {
+        final ImageLoaderOptions options = new ImageLoaderOptions.Builder()
+                .placeholder(defaultResId)
+                .error(defaultResId)
+                .build();
+        showImage(view, model, options);
     }
 
     public <T> void loadOnly(@NonNull Context context, @NonNull Object model, @Nullable IRequestListener<T> listener) {
